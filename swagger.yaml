@@ -1,0 +1,55 @@
+openapi: "3.0.0"
+info:
+  title: EduTech API- 48hrs Backend Challenge
+  description: I have promissed hitesh sir that I will do this challenge to prove my worth.
+  version: 1
+  contact:
+    email: sandeepkumar25820@gmail.com
+    url: "https://www.linkedin.com/in/sandeep-js/"
+
+servers:
+  - url: "{protocol}://localhost:369/api{version}"
+    description: For Local Dev Environment
+    variables:
+      version:
+        enum:
+          - v1
+          - v2
+        default: v1
+      protocol:
+        enum:
+          - http
+          - https
+        default: http
+
+components:
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: token
+    BearerAuth:
+      type: http
+      scheme: bearer
+
+
+paths:
+  /:
+    get:
+      tags:
+        - Home
+      summary: returns a greet message from LCO
+      responses:
+        200:
+          description: All good success
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "mystring"
+        
+        400:
+          description: Bad request
+        500:
+          description: Internal Server Error
+  
