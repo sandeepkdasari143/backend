@@ -29,9 +29,10 @@ app.use(morgan('tiny'));
 
 //TODO: Import all the routes here... Controllers -> Routes -> App.js
 const home = require('./routes/home.route');
-
+const user = require('./routes/user.route');
 //TODO: Router Middleware
 app.use('/api/v1/', home);
+app.use('/api/v1/', user);
 
 //TODO: Export an instance "app" of an express() class
 module.exports = app;

@@ -1,7 +1,7 @@
 const app = require('./app');
-const connectToMongoDB = require('./config/db.connector');
 require('dotenv').config();
 
+const connectToMongoDB = require('./config/db.connector');
 connectToMongoDB();
 
 app.listen(process.env.PORT, () => {

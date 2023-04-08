@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+require('dotenv').config();
 const validator = require('validator');
 const bcrypt = require('bcryptjs');
 const crypto = require("crypto");
@@ -6,7 +7,7 @@ const crypto = require("crypto");
 
 //TODO: Create a userSchema where, It takes an Object as an argument, In which you one key is one field... Here(username, email, password, etc.,)
 //Todo: userSchema is nothing but a document.
-const userSchema = mongoose.Schema({
+const userSchema = new mongoose.Schema({
     username: {
         type: String,
         required:[true, 'username is required'],
@@ -32,12 +33,10 @@ const userSchema = mongoose.Schema({
         //TODO: Cloudinary Image ID
         id: {
             type: String,
-            required: true
         },
         //TODO: We can get this from Cloudinary
         secure_url: {
             type: String,
-            required: true
         },
     },
 
