@@ -76,7 +76,6 @@ userSchema.methods.isValidPassword = async function(signInPassword){
     }catch(error){
         console.log(error.message);
     }
-
 }
 
 //TODO: Inception of JWT Token:: Using MongoDB Document _id as a JWT Token

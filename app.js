@@ -13,14 +13,14 @@ const YAML = require("yamljs");
 const swaggerDocument = YAML.load('./swagger.yaml');
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
-//TODO: regular middlewares
+// //TODO: regular middlewares
 app.use(express.json());
 app.use(express.urlencoded({
-    extended: true
+    extended: true,
 }))
 
-//TODO: Cookies and file middlewares here
-app.use(cookieParser);
+// //TODO: Cookies and file middlewares here
+app.use(cookieParser());
 app.use(fileUpload());
 
 //TODO: morgan middleware

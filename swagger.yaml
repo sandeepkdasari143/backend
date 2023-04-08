@@ -8,7 +8,7 @@ info:
     url: "https://www.linkedin.com/in/sandeep-js/"
 
 servers:
-  - url: "{protocol}://localhost:369/api{version}"
+  - url: "{protocol}://localhost:369/api/{version}"
     description: For Local Dev Environment
     variables:
       version:
