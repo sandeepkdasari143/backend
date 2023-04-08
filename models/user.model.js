@@ -3,6 +3,7 @@ const validator = require('validator');
 const bcrypt = require('bcryptjs');
 
 //TODO: Create a userSchema where, It takes an Object as an argument, In which you one key is one field... Here(username, email, password, etc.,)
+//Todo: userSchema is nothing but a document.
 const userSchema = mongoose.Schema({
     username: {
         type: String,
@@ -47,6 +48,19 @@ const userSchema = mongoose.Schema({
     },
 })
 
-//TODO: Encryption of Password Before Saving it
+//TODO: Encryption of Password Before Saving it...
+userSchema.pre('save', async function(next){
+    try {
+        //TODO:: If the password is not modified, then don't do encryption and execute next() => go on and save the document into the MongoDB
+        if(!this.isModified('password')){
+            return next();
+        }
+        //If the password is changed, then Encrypt the password...
+        this.password = await bcrypt.hash(this.password, 15);
+
+    } catch (error) {
+        console.log(error.message)
+    }
+})
 
 module.exports = mongoose.model('User', userSchema);
