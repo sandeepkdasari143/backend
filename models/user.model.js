@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
 const bcrypt = require('bcryptjs');
+const crypto = require("crypto");
+
 
 //TODO: Create a userSchema where, It takes an Object as an argument, In which you one key is one field... Here(username, email, password, etc.,)
 //Todo: userSchema is nothing but a document.
@@ -48,15 +50,15 @@ const userSchema = mongoose.Schema({
     },
 })
 
-//TODO: Encryption of Password Before Saving it...
-//todo:: Pre Hook with isModified method. Here, I am writing classic function syntax, since I am using the password present inside the userSchema, by using 'this' keyword.
+//TODO: Encryption of Password Before Saving it to the Database...
+//todo:: Pre Hook with isModified method. Here, I am writing classic function syntax, since I am refering the password present inside the userSchema, by using 'this' keyword.
 userSchema.pre('save', async function(next){
     try {
         //TODO:: If the password is not modified, then don't do encryption and execute next() => go on and save the document into the MongoDB
         if(!this.isModified('password')){
             return next();
         }
-        //If the password is changed, then Encrypt the password...
+        //If the password field is touched or if password is modified, then Encrypt the password as follows...
         this.password = await bcrypt.hash(this.password, 15);
 
     } catch (error) {
@@ -66,7 +68,7 @@ userSchema.pre('save', async function(next){
 
 //TODO: Define some methods
 /**
- * Validate the password with passed on user password
+ *TODO: Validate the password with passed on user password
  */
 userSchema.methods.isValidPassword = async function(signInPassword){
     try{
@@ -77,6 +79,30 @@ userSchema.methods.isValidPassword = async function(signInPassword){
 
 }
 
+//TODO: Inception of JWT Token:: Using MongoDB Document _id as a JWT Token
+//todo: It's not an asynchronous method...
+userSchema.methods.generateJwtToken = function(){
+    return jwt.sign({id: this._id, role: this.role}, process.env.JWT_SECRET, {
+        expiresIn: process.env.JWT_EXPIRY,
+    });
+}
 
+//TODO: Generating Forgot Password Token (Just a String)
+userSchema.methods.getForgotPasswordToken = function(){
+    // Generate the Random Long Unique ID :: Nano ID, UUID etc.,, Crypto package 
+    const forgetPasswordToken = crypto.randomBytes(20).toString('hex');
+    //Encrypt the string before assigning to the forgetPasswordToken inside the database...
+    //We are sending the hash of the token to the databasse, and Normal toekn to the user through the mail. And then we will implement the same function written below  to compare both the tokens.
+    this.forgetPasswordToken = crypto
+    .createHash('sha256')
+    .update(forgetPasswordToken)
+    .digest('hex');
+
+    //Set the Expiry of the token
+    this.forgetPasswordExpiry = Date.now() + process.env.FORGOT_PASSWORD_EXPIRY;
+
+    //Returning this to send to the user.
+    return forgotPasswordToken;
+}
 
 module.exports = mongoose.model('User', userSchema);
