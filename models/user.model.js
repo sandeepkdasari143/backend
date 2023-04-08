@@ -49,6 +49,7 @@ const userSchema = mongoose.Schema({
 })
 
 //TODO: Encryption of Password Before Saving it...
+//todo:: Pre Hook with isModified method. Here, I am writing classic function syntax, since I am using the password present inside the userSchema, by using 'this' keyword.
 userSchema.pre('save', async function(next){
     try {
         //TODO:: If the password is not modified, then don't do encryption and execute next() => go on and save the document into the MongoDB
@@ -62,5 +63,20 @@ userSchema.pre('save', async function(next){
         console.log(error.message)
     }
 })
+
+//TODO: Define some methods
+/**
+ * Validate the password with passed on user password
+ */
+userSchema.methods.isValidPassword = async function(signInPassword){
+    try{
+        return await bcrypt.compare(signInPassword, this.password);
+    }catch(error){
+        console.log(error.message);
+    }
+
+}
+
+
 
 module.exports = mongoose.model('User', userSchema);
