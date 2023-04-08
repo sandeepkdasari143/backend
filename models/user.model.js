@@ -47,6 +47,6 @@ const userSchema = mongoose.Schema({
     },
 })
 
-//TODO: Encryption of Password Before Saving it.
+//TODO: Encryption of Password Before Saving it
 
 module.exports = mongoose.model('User', userSchema);
