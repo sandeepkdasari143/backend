@@ -3,7 +3,7 @@ require('dotenv').config();
 const validator = require('validator');
 const bcrypt = require('bcryptjs');
 const crypto = require("crypto");
-
+const jwt = require('jsonwebtoken');
 
 //TODO: Create a userSchema where, It takes an Object as an argument, In which you one key is one field... Here(username, email, password, etc.,)
 //Todo: userSchema is nothing but a document.
