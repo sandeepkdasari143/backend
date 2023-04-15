@@ -1,7 +1,8 @@
 const User = require('../models/user.model');
-const generateCookieToken = require('../utils/cookieToken.util');
+const asyncHandler = require('../service/asyncHandler');
+const generateCookieToken = require('../utils/cookieToken.util.js');
 
-exports.signup = async (req, res, next) => {
+exports.signup = asyncHandler(async (req, res, next) => {
     const {username, email, password} = req.body;
 
     if(!username || !email || !password){
@@ -15,4 +16,4 @@ exports.signup = async (req, res, next) => {
     });
 
     generateCookieToken(user, res);
-}
+});

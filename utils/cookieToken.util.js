@@ -3,14 +3,15 @@ const generateCookieToken = (user, res) => {
     const token = user.generateJwtToken();
 
     const options = {
-        expires: new Date(Date.now() + process.env.COOKIE_EXPIRY_DAYS * 24 * 60 * 60 * 1000),
-        httpOnly: true,
+        expires: new Date(Date.now() + process.env.COOKIE_EXPIRY_DAYS * 24 * 60 * 60 * 1000), //days*24hrs*60min*60sec*1000ms
+        httpOnly: true, //Server Cookie :: Can only be accessed through server side
     }
 
-    user.password = undefined;
+    user.password = undefined; //Make the password undefined so that, password wont be shown in the response...
 
-    res.status(201).cookie('token', token, options).json({
+    res.status(201).cookie('authToken', token, options).json({
         success: true,
+        message: "User Signed In Successfully! :)",
         token,
         loggedInUser:{
             isLoggedIn: true,
