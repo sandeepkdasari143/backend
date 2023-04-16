@@ -21,7 +21,9 @@ app.use(express.urlencoded({
 
 // //TODO: Cookies and file middlewares here
 app.use(cookieParser());
-app.use(fileUpload());
+
+//TODO: Images and Videos Upload...
+app.use(fileUpload({}));
 
 //TODO: morgan middleware
 app.use(morgan('tiny'));
