@@ -23,18 +23,30 @@ app.use(express.urlencoded({
 app.use(cookieParser());
 
 //TODO: Images and Videos Upload...
-app.use(fileUpload({}));
+app.use(fileUpload({
+    useTempFiles: true,
+    tempFileDir: "/tmp/"
+}));
 
 //TODO: morgan middleware
 app.use(morgan('tiny'));
 
 
+
+
 //TODO: Import all the routes here... Controllers -> Routes -> App.js
 const home = require('./routes/home.route');
-const user = require('./routes/user.route');
+const user = require('./routes/auth.route');
+
 //TODO: Router Middleware
 app.use('/api/v1/', home);
 app.use('/api/v1/', user);
+
+
+
+
+
+
 
 //TODO: Export an instance "app" of an express() class
 module.exports = app;
