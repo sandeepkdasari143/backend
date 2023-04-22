@@ -9,6 +9,13 @@ exports.signup = asyncHandler(async (req, res, next) => {
         return next(new Error("username, email and password are required!"))
     }
 
+    //Take out the user info from the database...
+    const isExistedUser = await User.findOne({ email: email })
+    
+    if (isExistedUser) {
+        throw new Error("User already Exists! SignIn instead of SignUp!");
+    }
+
     const user = await User.create({
         username,
         email,
@@ -24,7 +31,37 @@ exports.login = asyncHandler(async (req, res, next) => {
 
     //Handle the absence of the request body...
     if (!email || !password) {
-    
+        throw new Error("Email and Password are compulsory!");
     }
-    
-})
+
+    //Take out the user info from the database...
+    const user = await User.findOne({ email: email }).select("+password");
+
+    //Throw an error if the user does not exist in the database...
+    if (!user) {
+        throw new Error("User does not exist. Kindly Register or SignUp!");
+    }
+
+    //Check if the password matches...
+    const isPasswordCorrect = user.isValidPassword(password);
+
+    //If the password doesn't matches, then Throw an error...
+    if (!isPasswordCorrect) {
+        throw new Error("Password is incorrect.");
+    }
+
+    //Generate the Cookie Token and Give them a good Response...
+    generateCookieToken(user, res);
+});
+
+exports.logout = asyncHandler(async (req, res, next) => {
+    res.cookie("authToken", null, {
+        expires: new Date(Date.now()),
+        httpOnly: true,
+    })
+
+    res.status(200).json({
+        success: true,
+        message: "Successfull Logged Out"
+    })
+});
