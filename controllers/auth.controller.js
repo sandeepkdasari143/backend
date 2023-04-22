@@ -65,3 +65,4 @@ exports.logout = asyncHandler(async (req, res, next) => {
         message: "Successfull Logged Out"
     })
 });
+

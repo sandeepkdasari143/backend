@@ -14,7 +14,7 @@ const generateCookieToken = (user, res) => {
         message: "User Signed In Successfully! :)",
         token,
         loggedInUser:{
-            isLoggedIn: true,
+            isLogedIn: true,
             credentials: user,
         }
     })
