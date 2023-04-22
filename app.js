@@ -1,11 +1,16 @@
 const express = require("express");
 require('dotenv').config();
+const cors = require("cors");
+
+
 
 //TODO: Bring an instance of express() class
 const app = express();
 const morgan = require('morgan');
 const cookieParser = require('cookie-parser');
 const fileUpload = require('express-fileupload');
+
+
 
 //TODO: Swagger Documentation
 const swaggerUi = require("swagger-ui-express");
@@ -18,7 +23,7 @@ app.use(express.json());
 app.use(express.urlencoded({
     extended: true,
 }))
-
+app.use(cors());
 // //TODO: Cookies and file middlewares here
 app.use(cookieParser());
 

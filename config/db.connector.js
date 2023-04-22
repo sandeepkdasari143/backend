@@ -9,6 +9,7 @@ const connectToMongoDB = () => {
     .then(console.log(`DB Connected :D`))
     .catch(error => {
         console.log(`DB Connection Failed :()`);
+        console.log(error);
         console.log(error.message);
         process.exit(1);
     })
