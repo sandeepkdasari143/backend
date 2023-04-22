@@ -17,3 +17,14 @@ exports.signup = asyncHandler(async (req, res, next) => {
 
     generateCookieToken(user, res);
 });
+
+exports.login = asyncHandler(async (req, res, next) => {
+    //Take the data fromt the request body...
+    const { email, password } = req.body;
+
+    //Handle the absence of the request body...
+    if (!email || !password) {
+    
+    }
+    
+})
